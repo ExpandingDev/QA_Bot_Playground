@@ -10,6 +10,6 @@ class MultinetNode(Base):
 
     id = Column(BigInteger, primary_key=True)
 
-    type = Column(String(2), nullable=False)
+    type = Column(String(3), nullable=False)
 
     creation_time = Column(DateTime, nullable=False, default=datetime.now())
