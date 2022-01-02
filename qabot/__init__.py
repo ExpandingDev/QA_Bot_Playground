@@ -18,6 +18,8 @@ session = Session(db)
 # import out model definitions
 from db import Base
 from models import Statement, Question
+from multinet_types import MultinetSorts
+from multinet_models import MultinetNode
 
 # Create our tables from the models
 Base.metadata.create_all(db)

@@ -1,3 +1,4 @@
+from enum import Enum
 
 _multinet_sorts_to_abbreviations = [
     "ent",
