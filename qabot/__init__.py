@@ -1,6 +1,7 @@
 import logging
 import pathlib
 import sqlalchemy
+from sqlalchemy.orm import Session
 
 from config import QABotTestConfig
 
@@ -12,6 +13,7 @@ conf = QABotTestConfig()
 
 # Connect to the DB
 db = sqlalchemy.create_engine(conf.DATABASEURI, echo=conf.SQLALCHEMY_ECHO)
+session = Session(db)
 
 # import out model definitions
 from models import Base, Statement, Question
@@ -22,20 +24,28 @@ Base.metadata.create_all(db)
 def user_command_loop():
     running = True
     while running:
-        cmd = input(">>> ")
-        cmd = cmd.strip()
-        if cmd.startswith(":"):
+        entry = input(">>> ")
+        entry = entry.strip()
+        if entry.startswith(":"):
             # User entered a statement
-            print("Got a statement")
-        elif cmd.startswith("?"):
+            s = Statement(text=entry[1:].strip())
+            session.add(s)
+            session.commit()
+        elif entry.startswith("?"):
             # User entered a question
-            print("Got a question")
+            q = Question(text=entry[1:].strip())
+            session.add(q)
+            session.commit()
         else:
-            cmd = cmd.lower()
+            # User entered a command
+            cmd = entry.lower()
             if cmd in ("quit", "exit", "stop"):
                 running = False
                 print("Got QUIT command, exiting...")
 
+            cmd_parts = cmd.split(" ")
+
+    session.close()
     print("Goodbye!")
 
 user_command_loop()
