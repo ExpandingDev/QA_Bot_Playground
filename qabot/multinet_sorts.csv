@@ -1,0 +1,44 @@
+entity,ent
+object,o
+concrete object,co
+discrete object,d
+substance,s
+abstract object,ab
+attribute,at
+measurable attribute,oa
+non-measurable attribute,na
+relationship,re
+ideal object,io
+abtract temportal object,ta
+modality,mo
+dynamic situational object,ad
+static situational object,as
+situation,si
+dynamic situational,dy
+action, da,
+happening,dn
+static situation,st
+situational descriptor,sd
+time,t
+location,l
+modal situational descriptor,md
+quality,ql
+property,p
+total quality,tq
+gradable quality,gq
+measurable quality,mq
+non-measurable quality,nq
+relational quality,rq
+functional quality,fq
+operational quality,oq
+associative quality,aq
+quantity,qn
+quantification,qf
+numerical quanitificator,nu
+non-numerical quantificator,nn
+unit of measurement,me
+measurement,m
+graduator,gr
+qualitative graduator,lg
+quantitative graduator,ng
+formal entity,fe
