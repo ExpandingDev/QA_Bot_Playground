@@ -1,21 +1,23 @@
 from datetime import datetime
+from sqlalchemy import Integer, String, DateTime, Column
+from sqlalchemy.orm import declarative_base
 
-from qabot.db.db import db
+Base = declarative_base()
 
-class Statement(db.Model):
+class Statement(Base):
     __tablename__ = "StatementList"
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = Column(Integer, primary_key=True)
 
-    text = db.Column(db.String(300), nullable=False)
+    text = Column(String(300), nullable=False)
 
-    entry_time = db.Column(db.DateTime(), nullable=False, default=datetime.now())
+    entry_time = Column(DateTime(), nullable=False, default=datetime.now())
 
-class Question(db.Model):
+class Question(Base):
     __tablename__ = "QuestionList"
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = Column(Integer, primary_key=True)
 
-    text = db.Column(db.String(300), nullable=False)
+    text = Column(String(300), nullable=False)
 
-    entry_time = db.Column(db.DateTime(), nullable=False, default=datetime.now())
+    entry_time = Column(DateTime(), nullable=False, default=datetime.now())
