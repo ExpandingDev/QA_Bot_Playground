@@ -1,4 +1,6 @@
+from datetime import datetime
 
+from qabot.db.db import db
 
 class Statement(db.Model):
     __tablename__ = "StatementList"
