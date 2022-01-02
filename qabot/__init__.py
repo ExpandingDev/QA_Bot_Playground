@@ -16,7 +16,8 @@ db = sqlalchemy.create_engine(conf.DATABASEURI, echo=conf.SQLALCHEMY_ECHO)
 session = Session(db)
 
 # import out model definitions
-from models import Base, Statement, Question
+from db import Base
+from models import Statement, Question
 
 # Create our tables from the models
 Base.metadata.create_all(db)

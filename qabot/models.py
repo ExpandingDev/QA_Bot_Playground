@@ -1,8 +1,7 @@
 from datetime import datetime
-from sqlalchemy import Integer, String, DateTime, Column
-from sqlalchemy.orm import declarative_base
+from sqlalchemy import Integer, BigInteger, Float, Boolean, String, DateTime, Column
 
-Base = declarative_base()
+from db import Base
 
 class Statement(Base):
     __tablename__ = "StatementList"
