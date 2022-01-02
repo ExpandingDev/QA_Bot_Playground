@@ -14,6 +14,7 @@ _multinet_sorts_to_abbreviations = [
     "io",
     "ta",
     "mo",
+    "abs",
     "ad",
     "as",
     "si",
@@ -50,54 +51,71 @@ _multinet_sorts_to_abbreviations = [
 class MultinetSorts(Enum):
     ENTITY = 0
     OBJECT = 1
-    CONCRETE_OBJECT = 2
-    DISCRETE_OBJECT = 3
-    SUBSTANCE = 4
-    ABSTRACT_OBJECT = 5
-    ATTRIBUTE = 6
-    MEASURABLE_ATTRIBUTE = 7 
-    NON_MEASURABLE_ATTRIBUTE = 8
-    RELATIONSHIP = 9
-    IDEAL_OBJECT = 10
-    ABTRACT_TEMPORTAL_OBJECT = 11
-    MODALITY = 12
-    DYNAMIC_SITUATIONAL_OBJECT = 13
-    STATIC_SITUATIONAL_OBJECT = 14
-    SITUATION = 15
-    DYNAMIC_SITUATIONAL = 16
-    ACTION = 17
-    HAPPENING = 18
-    STATIC_SITUATION = 19
-    SITUATIONAL_DESCRIPTOR = 20
-    TIME = 21
-    LOCATION = 22
-    MODAL_SITUATIONAL_DESCRIPTOR = 23
-    QUALITY = 24
-    PROPERTY = 25
-    TOTAL_QUALITY = 26
-    GRADABLE_QUALITY = 27
-    MEASURABLE_QUALITY = 28
-    NON_MEASURABLE_QUALITY = 29
-    RELATIONAL_QUALITY = 30
-    FUNCTIONAL_QUALITY = 31
-    OPERATIONAL_QUALITY = 32
-    ASSOCIATIVE_QUALITY = 33
-    QUANTITY = 34
-    QUANTIFICATION = 35
-    NUMERICAL_QUANITIFICATOR = 36
-    NON_NUMERICAL_QUANTIFICATOR = 37
-    UNIT_OF_MEASUREMENT = 38
-    MEASUREMENT = 39
-    GRADUATOR = 40
-    QUALITATIVE_GRADUATOR = 41
-    QUANTITATIVE_GRADUATOR = 42
-    FORMAL_ENTITY = 43
+    CONCRETE_OBJECT = 11
+    DISCRETE_OBJECT = 111
+    SUBSTANCE = 112
+    ABSTRACT_OBJECT = 12
+    ATTRIBUTE = 121
+    MEASURABLE_ATTRIBUTE = 1211
+    NON_MEASURABLE_ATTRIBUTE = 1212
+    RELATIONSHIP = 122
+    IDEAL_OBJECT = 123
+    ABTRACT_TEMPORTAL_OBJECT = 124
+    MODALITY = 125
+    SITUATIONAL_OBJECT = 126
+    DYNAMIC_SITUATIONAL_OBJECT = 1261
+    STATIC_SITUATIONAL_OBJECT = 1262
+    SITUATION = 2
+    DYNAMIC_SITUATIONAL = 21
+    ACTION = 211
+    HAPPENING = 212
+    STATIC_SITUATION = 22
+    SITUATIONAL_DESCRIPTOR = 3
+    TIME = 31
+    LOCATION = 32
+    MODAL_SITUATIONAL_DESCRIPTOR = 33
+    QUALITY = 4
+    PROPERTY = 41
+    TOTAL_QUALITY = 411
+    GRADABLE_QUALITY = 412
+    MEASURABLE_QUALITY = 4121
+    NON_MEASURABLE_QUALITY = 4122
+    RELATIONAL_QUALITY = 42
+    FUNCTIONAL_QUALITY = 43
+    OPERATIONAL_QUALITY = 431
+    ASSOCIATIVE_QUALITY = 432
+    QUANTITY = 5
+    QUANTIFICATOR = 51
+    NUMERICAL_QUANITIFICATOR = 511
+    NON_NUMERICAL_QUANTIFICATOR = 512
+    UNIT_OF_MEASUREMENT = 52
+    MEASUREMENT = 53
+    GRADUATOR = 6
+    QUALITATIVE_GRADUATOR = 61
+    QUANTITATIVE_GRADUATOR = 62
+    FORMAL_ENTITY = 7
 
     def long_name(self):
         return self.name.lower().replace("_"," ")
 
     def abbreviation(self):
         return _multinet_sorts_to_abbreviations[self.value]
+
+    def is_subset_of(self, parent):
+        # Returns true if this enum is a subset of the passed in enum
+        # For example: A discrete object (d) is a subset of object (o)
+        if parent.value == 0:
+            return True
+        if parent.value > self.value: # All children have larger values than their parents
+            return False
+        # Break down into string and compare by tree
+        parent_tree = str(parent.value)
+        own_tree = str(self.value)
+        for i in range(0,len(parent_tree)):
+            if own_tree[i] != parent_tree[i]:
+                return False
+        
+        return True
 
     def __str__(self):
         return self.name
