@@ -1,13 +1,15 @@
 from datetime import datetime
-from sqlalchemy import Integer, BigInteger, SmallInteger, Float, Boolean, String, DateTime, Column
 
+from sqlalchemy import Integer, BigInteger, SmallInteger, Float, Boolean, String, DateTime, ForeignKey, Column
 # We are importing SQL Alchemy's Enum column datatype as SQLEnum to avoid ambiguity + conflict with Python's Enum class type
 from sqlalchemy import Enum as SQLEnum
+from sqlalchemy.orm import relationship
 
 from db import Base
-from multinet_types import MultinetSorts, MultinetGenerality, MultinetDetermination, MultinetFacticity, MultinetVariability
+from multinet_types import MultinetSorts, MultinetGenerality, MultinetDetermination, MultinetFacticity, MultinetVariability, MultinetKType
 
 class MultinetNode(Base):
+    """Defines a node in the Multinet Semantic Network"""
     __tablename__ = "MultinetNodes"
 
     # Housekeeping data
@@ -30,6 +32,7 @@ class MultinetNode(Base):
     #- VARIA
     variability = Column("varia", SQLEnum(MultinetVariability), nullable=True)
     #- QUANT
+    # TODO: quantification points to another node in the semantic network that is of the nn or nu sort
     quantification = Column("quant", String(30), nullable=True)
     #- CARD
     ### NOTE: Cardinality can be an integer, or is an interval. The interval may have an upper and/or lower bound.
@@ -80,3 +83,18 @@ class MultinetNode(Base):
             return "Invalid Node! " + sort.name + " nodes cannot have VARIA attribute!"
 
         return ""
+
+class MultinetArc(Base):
+    """Defines an arc/edge in the Multinet Semantic Network."""
+    __tablename__ = "MultinetArcs"
+
+    # Housekeeping data
+    id = Column("id", BigInteger, primary_key=True)
+    creation_time = Column("created_time", DateTime, nullable=False, default=datetime.now())
+
+    start_node = Column("start_node", Integer, ForeignKey("MultinetNodes.id"), nullable=False)
+    end_node = Column("end_node", Integer, ForeignKey("MultinetNodes.id"), nullable=False)
+
+    relation = Column("relation", String(30), nullable=False)
+
+    knowledge_type = Column("ktype", SQLEnum(MultinetKType), nullable=False)
