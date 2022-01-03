@@ -102,8 +102,8 @@ class MultinetSorts(Enum):
         return _multinet_sorts_to_abbreviations[self.value]
 
     def is_subset_of(self, parent):
-        # Returns true if this enum is a subset of the passed in enum
-        # For example: A discrete object (d) is a subset of object (o)
+        """Returns true if this enum is a subset of the passed in enum
+        For example: A discrete object (d) is a subset of object (o)"""
         if parent.value == 0:
             return True
         if parent.value > self.value: # All children have larger values than their parents
@@ -116,6 +116,78 @@ class MultinetSorts(Enum):
                 return False
         
         return True
+
+    def is_ositl(self):
+        """Returns true if the value is an object, situation, time, or location.
+        Useful for determining if the node has osi-tl-lay layer information"""
+        return is_otl() or is_subset_of(MultinetSorts.SITUATION)
+
+    def is_otl(self):
+        """Returns true if the value is an object, time, or location.
+        Userful for determining if the node has o-tl-lay layer information"""
+        return is_subset_of(MultinetSorts.OBJECT) or is_subset_of(MultinetSorts.TIME) or is_subset_of(MultinetSorts().LOCATION)
+
+    def __str__(self):
+        return self.name
+
+class MultinetDetermination(Enum):
+    # REFER
+    DETERMINATE = 1
+    INDETERMINATE = 2
+
+    def abbreviation(self):
+        if self.value == MultinetDetermination.DETERMINATE:
+            return "det"
+        else:
+            return "indet"
+
+    def __str__(self):
+        return self.name
+
+class MultinetGenerality(Enum):
+    # GENER
+    SPECIALIZED = 1
+    GENERALIZED = 2
+
+    def abbreviation(self):
+        if self.value == MultinetGenerality.SPECIALIZED:
+            return "sp"
+        else:
+            return "ge"
+
+    def __str__(self):
+        return self.name
+
+class MultinetVariability(Enum):
+    # VARIA
+    CONSTANT = 1
+    VARIABLE = 2
+    PLURAL_VARIABLE = 3
+
+    def abbreviation(self):
+        if self.value == MultinetVariability.CONSTANT:
+            return "const"
+        elif self.value == MultinetVariability.PLURAL_VARIABLE:
+            return "varia"
+        else:
+            return "var"
+
+    def __str__(self):
+        return self.name
+
+class MultinetFacticity(Enum):
+    # FACT
+    REAL = 1            # true
+    HYPOTHETICAL = 2    # unkown
+    NON_REAL = 3        # false
+
+    def abbreviation(self):
+        if self.value == MultinetFacticity.REAL:
+            return "real"
+        elif self.value == MultinetFacticity.HYPOTHETICAL:
+            return "hypo"
+        else:
+            return "non"
 
     def __str__(self):
         return self.name
