@@ -191,3 +191,19 @@ class MultinetFacticity(Enum):
 
     def __str__(self):
         return self.name
+
+class MultinetKType(Enum):
+    # K-TYPE
+    RESTRICTIVE = 1     # R - restr
+    CATEGORICAL = 2     # K - immanent (categorical)
+    PROTOTYPICAL = 3    # D - immanent (prototypical)
+    SITUATIONAL = 4     # S - situational, assertional + definitional
+
+    def is_immanent(self):
+        return self.value == MultinetKType.CATEGORICAL or self.value == MultinetKType.PROTOTYPICAL
+    
+    def is_descriptive(self):
+        return is_immanent() or self.value == MultinetKType.SITUATIONAL
+
+    def __str__(self):
+        return self.name
